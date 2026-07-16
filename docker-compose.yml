@@ -1,0 +1,39 @@
+services:
+  mongo:
+    image: mongo:7
+    container_name: ems-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build: ./backend
+    container_name: ems-api
+    depends_on:
+      mongo:
+        condition: service_healthy
+    environment:
+      PORT: 5000
+      MONGO_URI: mongodb://mongo:27017/ems
+      JWT_SECRET: ${JWT_SECRET:-dev-only-secret-change-in-production}
+      JWT_EXPIRES_IN: 1d
+      CLIENT_URL: http://localhost:5173
+    ports:
+      - "5000:5000"
+
+  web:
+    build: ./frontend
+    container_name: ems-web
+    depends_on:
+      - api
+    ports:
+      - "5173:80"
+
+volumes:
+  mongo-data:

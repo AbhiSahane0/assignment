@@ -1,0 +1,21 @@
+# Render Blueprint — deploys the EMS API.
+# In the Render dashboard: New + → Blueprint → point at this repo.
+# You will be prompted for MONGO_URI and CLIENT_URL on first deploy.
+services:
+  - type: web
+    name: ems-api
+    runtime: node
+    plan: free
+    rootDir: backend
+    buildCommand: npm ci --omit=dev
+    startCommand: node src/server.js
+    healthCheckPath: /api/health
+    envVars:
+      - key: MONGO_URI          # MongoDB Atlas connection string (mongodb+srv://…)
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true     # Render generates a strong random secret
+      - key: JWT_EXPIRES_IN
+        value: 1d
+      - key: CLIENT_URL         # your Vercel frontend URL, e.g. https://ems-yourname.vercel.app
+        sync: false

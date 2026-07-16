@@ -1,0 +1,4 @@
+employeeId,name,email,password,phone,department,designation,salary,joiningDate,status,role
+EMP-101,Ravi Kumar,ravi.kumar@ems.com,Welcome@123,9876511001,Engineering,Junior Developer,45000,2024-06-01,ACTIVE,EMPLOYEE
+EMP-102,Pooja Shah,pooja.shah@ems.com,Welcome@123,9876511002,Marketing,SEO Analyst,42000,2024-07-15,ACTIVE,EMPLOYEE
+EMP-103,Amit Trivedi,amit.t@ems.com,Welcome@123,9876511003,Finance,Junior Accountant,40000,2024-08-20,ACTIVE,EMPLOYEE
