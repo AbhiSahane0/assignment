@@ -1,0 +1,206 @@
+{
+  "info": {
+    "name": "Employee Management System API",
+    "description": "Full API collection for the EMS assignment. Run 'Auth / Login' first — it stores the JWT in the {{token}} collection variable automatically; every other request uses it. Set {{baseUrl}} to your local or deployed API.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:5000/api" },
+    { "key": "token", "value": "" },
+    { "key": "employeeId", "value": "REPLACE_WITH_EMPLOYEE_OBJECT_ID" },
+    { "key": "managerId", "value": "REPLACE_WITH_MANAGER_OBJECT_ID" }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }]
+  },
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "Health check",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/health", "host": ["{{baseUrl}}"], "path": ["health"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login (saves token)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.token) {",
+                  "  pm.collectionVariables.set('token', res.token);",
+                  "  console.log('Token saved to {{token}}');",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@ems.com\",\n  \"password\": \"Admin@123\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] }
+          }
+        },
+        {
+          "name": "Me",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/auth/me", "host": ["{{baseUrl}}"], "path": ["auth", "me"] }
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "url": { "raw": "{{baseUrl}}/auth/logout", "host": ["{{baseUrl}}"], "path": ["auth", "logout"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Employees",
+      "item": [
+        {
+          "name": "List (search + filter + sort + pagination)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/employees?search=&department=&role=&status=&sortBy=joiningDate&order=desc&page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["employees"],
+              "query": [
+                { "key": "search", "value": "", "description": "matches name or email" },
+                { "key": "department", "value": "", "description": "exact department" },
+                { "key": "role", "value": "", "description": "SUPER_ADMIN | HR_MANAGER | EMPLOYEE" },
+                { "key": "status", "value": "", "description": "ACTIVE | INACTIVE" },
+                { "key": "sortBy", "value": "joiningDate", "description": "name | joiningDate | salary | createdAt" },
+                { "key": "order", "value": "desc" },
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "10" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create employee",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"employeeId\": \"EMP-200\",\n  \"name\": \"Test Person\",\n  \"email\": \"test.person@ems.com\",\n  \"password\": \"Secret@1\",\n  \"phone\": \"9876500200\",\n  \"department\": \"Engineering\",\n  \"designation\": \"Developer\",\n  \"salary\": 55000,\n  \"joiningDate\": \"2025-06-01\",\n  \"status\": \"ACTIVE\",\n  \"role\": \"EMPLOYEE\",\n  \"reportingManager\": null\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/employees", "host": ["{{baseUrl}}"], "path": ["employees"] }
+          }
+        },
+        {
+          "name": "Get employee by id",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/employees/{{employeeId}}", "host": ["{{baseUrl}}"], "path": ["employees", "{{employeeId}}"] }
+          }
+        },
+        {
+          "name": "Update employee",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"designation\": \"Senior Developer\",\n  \"salary\": 70000\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/employees/{{employeeId}}", "host": ["{{baseUrl}}"], "path": ["employees", "{{employeeId}}"] }
+          }
+        },
+        {
+          "name": "Delete employee (soft, Super Admin only)",
+          "request": {
+            "method": "DELETE",
+            "url": { "raw": "{{baseUrl}}/employees/{{employeeId}}", "host": ["{{baseUrl}}"], "path": ["employees", "{{employeeId}}"] }
+          }
+        },
+        {
+          "name": "Assign reporting manager",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"managerId\": \"{{managerId}}\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/employees/{{employeeId}}/manager", "host": ["{{baseUrl}}"], "path": ["employees", "{{employeeId}}", "manager"] }
+          }
+        },
+        {
+          "name": "Direct reports (reportees)",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/employees/{{employeeId}}/reportees", "host": ["{{baseUrl}}"], "path": ["employees", "{{employeeId}}", "reportees"] }
+          }
+        },
+        {
+          "name": "Departments (filter options)",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/employees/meta/departments", "host": ["{{baseUrl}}"], "path": ["employees", "meta", "departments"] }
+          }
+        },
+        {
+          "name": "Import CSV",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "file", "type": "file", "src": "sample-employees.csv" }
+              ]
+            },
+            "url": { "raw": "{{baseUrl}}/employees/import", "host": ["{{baseUrl}}"], "path": ["employees", "import"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Organization",
+      "item": [
+        {
+          "name": "Org tree",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/organization/tree", "host": ["{{baseUrl}}"], "path": ["organization", "tree"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Dashboard",
+      "item": [
+        {
+          "name": "Stats",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/dashboard/stats", "host": ["{{baseUrl}}"], "path": ["dashboard", "stats"] }
+          }
+        }
+      ]
+    }
+  ]
+}

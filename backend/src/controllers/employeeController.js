@@ -143,6 +143,7 @@ const updateEmployee = async (req, res, next) => {
 
     Object.assign(target, updates);
     await target.save(); // save() so the password pre-hook & validators run
+    await target.populate('reportingManager', 'name employeeId designation');
     res.json({ success: true, data: target.toJSON() });
   } catch (err) {
     next(err);

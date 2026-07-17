@@ -3,8 +3,9 @@ import { Upload, Plus, Search, ArrowUp, ArrowDown, ChevronLeft, ChevronRight, Ch
 import api, { errorMessage } from '../api/client';
 import { Employee, Pagination, ROLE_LABELS } from '../types';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 import EmployeeForm from '../components/EmployeeForm';
-import { Alert, Avatar, btnPrimary, btnSecondary, Card, inputClass, Modal, RoleBadge, Spinner, StatusBadge } from '../components/ui';
+import { Alert, Avatar, btnPrimary, btnSecondary, Card, inputClass, Modal, RoleBadge, Skeleton, StatusBadge } from '../components/ui';
 
 const filterSelectClass = inputClass.replace('w-full', 'w-auto');
 
@@ -18,7 +19,7 @@ export default function Employees() {
   const [managers, setManagers] = useState<Employee[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [notice, setNotice] = useState('');
+  const toast = useToast();
 
   // query state
   const [search, setSearch] = useState('');
@@ -102,12 +103,12 @@ export default function Employees() {
     if (!confirmDelete) return;
     try {
       await api.delete(`/employees/${confirmDelete._id}`);
-      setNotice(`${confirmDelete.name} was deleted.`);
+      toast.success(`${confirmDelete.name} was deleted.`);
       setConfirmDelete(null);
       fetchRows();
       refreshMeta();
     } catch (err) {
-      setError(errorMessage(err));
+      toast.error(errorMessage(err));
       setConfirmDelete(null);
     }
   };
@@ -120,11 +121,13 @@ export default function Employees() {
     try {
       const res = await api.post('/employees/import', data);
       const { imported, failed } = res.data;
-      setNotice(`CSV import: ${imported} added${failed.length ? `, ${failed.length} failed (${failed[0].reason}…)` : ''}.`);
+      const summary = `CSV import: ${imported} added${failed.length ? `, ${failed.length} failed (${failed[0].reason}…)` : ''}.`;
+      if (imported > 0) toast.success(summary);
+      else toast.error(summary);
       fetchRows();
       refreshMeta();
     } catch (err) {
-      setError(errorMessage(err));
+      toast.error(errorMessage(err));
     } finally {
       e.target.value = '';
     }
@@ -146,7 +149,6 @@ export default function Employees() {
       </div>
 
       {error && <Alert kind="error">{error}</Alert>}
-      {notice && <Alert kind="success">{notice}</Alert>}
 
       {/* Search + filters */}
       <Card className="flex flex-wrap items-center gap-3">
@@ -178,7 +180,19 @@ export default function Employees() {
       {/* Table */}
       <Card className="overflow-x-auto p-0">
         {loading ? (
-          <Spinner />
+          <div className="space-y-3 p-4">
+            {[...Array(6)].map((_, i) => (
+              <div key={i} className="flex items-center gap-3">
+                <Skeleton className="h-9 w-9 rounded-full" />
+                <div className="flex-1 space-y-1.5">
+                  <Skeleton className="h-3.5 w-1/3" />
+                  <Skeleton className="h-3 w-1/2" />
+                </div>
+                <Skeleton className="h-5 w-20" />
+                <Skeleton className="h-5 w-16" />
+              </div>
+            ))}
+          </div>
         ) : (
           <table className="w-full min-w-[760px] text-left text-sm">
             <thead className="border-b border-slate-200 text-xs uppercase tracking-wide text-slate-500 dark:border-slate-800 dark:text-slate-400">
@@ -278,7 +292,7 @@ export default function Employees() {
             onCancel={() => setShowForm(false)}
             onSaved={() => {
               setShowForm(false);
-              setNotice(editing ? 'Employee updated.' : 'Employee created.');
+              toast.success(editing ? 'Employee updated.' : 'Employee created.');
               fetchRows();
               refreshMeta();
             }}

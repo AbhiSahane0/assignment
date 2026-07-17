@@ -1,0 +1,11 @@
+employeeId,name,email,password,phone,department,designation,salary,joiningDate,status,role
+EMP-101,Ravi Kumar,ravi.kumar@ems.com,Welcome@123,9876511001,Engineering,Junior Developer,45000,2024-06-01,ACTIVE,EMPLOYEE
+EMP-102,Pooja Shah,pooja.shah@ems.com,Welcome@123,9876511002,Marketing,SEO Analyst,42000,2024-07-15,ACTIVE,EMPLOYEE
+EMP-103,Amit Trivedi,amit.trivedi@ems.com,Welcome@123,9876511003,Finance,Junior Accountant,40000,2024-08-20,ACTIVE,EMPLOYEE
+EMP-104,Neha Kulkarni,neha.kulkarni@ems.com,Welcome@123,9876511004,Engineering,Frontend Developer,58000,2024-09-02,ACTIVE,EMPLOYEE
+EMP-105,Sanjay Reddy,sanjay.reddy@ems.com,Welcome@123,9876511005,Sales,Sales Executive,47000,2024-10-13,ACTIVE,EMPLOYEE
+EMP-106,Aisha Sheikh,aisha.sheikh@ems.com,Welcome@123,9876511006,Human Resources,Recruiter,44000,2024-11-24,ACTIVE,EMPLOYEE
+EMP-107,Vivek Chauhan,vivek.chauhan@ems.com,Welcome@123,9876511007,Engineering,Backend Developer,60000,2025-01-06,ACTIVE,EMPLOYEE
+EMP-108,Ritika Bansal,ritika.bansal@ems.com,Welcome@123,9876511008,Design,UI/UX Designer,52000,2025-02-17,ACTIVE,EMPLOYEE
+EMP-109,Mohan Das,mohan.das@ems.com,Welcome@123,9876511009,Operations,Operations Executive,41000,2025-03-30,INACTIVE,EMPLOYEE
+EMP-110,Kavya Menon,kavya.menon@ems.com,Welcome@123,9876511010,Engineering,QA Engineer,48000,2025-05-11,ACTIVE,EMPLOYEE

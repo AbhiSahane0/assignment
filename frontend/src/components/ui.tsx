@@ -73,6 +73,10 @@ export const btnPrimary =
 export const btnSecondary =
   'inline-flex items-center justify-center gap-2 rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium transition-colors hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800';
 
+export function Skeleton({ className = '' }: { className?: string }) {
+  return <div className={`animate-pulse rounded-md bg-slate-200 dark:bg-slate-800 ${className}`} />;
+}
+
 export function Spinner() {
   return (
     <div className="flex justify-center py-12">

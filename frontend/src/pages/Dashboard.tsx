@@ -5,7 +5,7 @@ import {
 } from 'recharts';
 import api, { errorMessage } from '../api/client';
 import { DashboardStats, ROLE_LABELS, Role } from '../types';
-import { Card, Spinner, Alert, Avatar } from '../components/ui';
+import { Card, Skeleton, Alert, Avatar } from '../components/ui';
 import { useTheme } from '../context/ThemeContext';
 
 // Palette validated with the dataviz six-checks validator for each mode
@@ -45,7 +45,30 @@ export default function Dashboard() {
   }, []);
 
   if (error) return <Alert kind="error">{error}</Alert>;
-  if (!stats) return <Spinner />;
+  if (!stats) {
+    // Loading skeleton mirroring the real layout
+    return (
+      <div className="space-y-6">
+        <Skeleton className="h-7 w-40" />
+        <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+          {[...Array(4)].map((_, i) => (
+            <Card key={i}>
+              <Skeleton className="h-4 w-24" />
+              <Skeleton className="mt-2 h-8 w-12" />
+            </Card>
+          ))}
+        </div>
+        <div className="grid gap-6 lg:grid-cols-2">
+          {[...Array(2)].map((_, i) => (
+            <Card key={i}>
+              <Skeleton className="mb-4 h-4 w-44" />
+              <Skeleton className="h-64 w-full" />
+            </Card>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   const colors = dark ? SERIES.dark : SERIES.light;
   const gridStroke = dark ? '#334155' : '#e2e8f0';

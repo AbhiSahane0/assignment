@@ -2,6 +2,7 @@ import { FormEvent, useEffect, useState } from 'react';
 import api, { errorMessage } from '../api/client';
 import { Employee, ROLE_LABELS } from '../types';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 import { Alert, Avatar, btnPrimary, Card, inputClass, RoleBadge, Spinner, StatusBadge } from '../components/ui';
 
 export default function Profile() {
@@ -11,8 +12,8 @@ export default function Profile() {
   const [profileImage, setProfileImage] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [notice, setNotice] = useState('');
   const [saving, setSaving] = useState(false);
+  const toast = useToast();
 
   useEffect(() => {
     api
@@ -28,7 +29,6 @@ export default function Profile() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError('');
-    setNotice('');
 
     if (!/^\+?[0-9]{10,15}$/.test(phone)) return setError('Phone must be 10-15 digits.');
     if (password && password.length < 6) return setError('Password must be at least 6 characters.');
@@ -41,7 +41,7 @@ export default function Profile() {
       setProfile(res.data.data);
       updateUser({ ...user!, phone, profileImage });
       setPassword('');
-      setNotice('Profile updated.');
+      toast.success('Profile updated.');
     } catch (err) {
       setError(errorMessage(err));
     } finally {
@@ -92,7 +92,6 @@ export default function Profile() {
         </h2>
 
         {error && <div className="mb-3"><Alert kind="error">{error}</Alert></div>}
-        {notice && <div className="mb-3"><Alert kind="success">{notice}</Alert></div>}
 
         <form onSubmit={handleSubmit} className="space-y-3">
           <div>
