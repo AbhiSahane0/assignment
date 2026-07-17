@@ -1,4 +1,5 @@
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
+import { Upload, Plus, Search, ArrowUp, ArrowDown, ChevronLeft, ChevronRight, ChevronsUpDown } from 'lucide-react';
 import api, { errorMessage } from '../api/client';
 import { Employee, Pagination, ROLE_LABELS } from '../types';
 import { useAuth } from '../context/AuthContext';
@@ -90,7 +91,12 @@ export default function Employees() {
     }
   };
 
-  const sortIndicator = (field: string) => (sortBy === field ? (order === 'asc' ? ' ↑' : ' ↓') : '');
+  const sortIndicator = (field: string) =>
+    sortBy === field ? (
+      order === 'asc' ? <ArrowUp size={13} className="inline" /> : <ArrowDown size={13} className="inline" />
+    ) : (
+      <ChevronsUpDown size={13} className="inline opacity-40" />
+    );
 
   const handleDelete = async () => {
     if (!confirmDelete) return;
@@ -131,10 +137,10 @@ export default function Employees() {
         <div className="flex gap-2">
           <input ref={fileInput} type="file" accept=".csv" className="hidden" onChange={handleCsvImport} />
           <button className={btnSecondary} onClick={() => fileInput.current?.click()}>
-            ⬆ Import CSV
+            <Upload size={16} /> Import CSV
           </button>
           <button className={btnPrimary} onClick={() => { setEditing(null); setShowForm(true); }}>
-            + Add Employee
+            <Plus size={16} /> Add Employee
           </button>
         </div>
       </div>
@@ -144,13 +150,16 @@ export default function Employees() {
 
       {/* Search + filters */}
       <Card className="flex flex-wrap items-center gap-3">
-        <input
-          type="search"
-          placeholder="Search by name or email…"
-          className={`${inputClass} max-w-xs`}
-          onChange={onSearchChange}
-          aria-label="Search employees"
-        />
+        <div className="relative max-w-xs flex-1">
+          <Search size={16} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+          <input
+            type="search"
+            placeholder="Search by name or email…"
+            className={`${inputClass} pl-9`}
+            onChange={onSearchChange}
+            aria-label="Search employees"
+          />
+        </div>
         <select className={filterSelectClass} value={department} onChange={(e) => { setDepartment(e.target.value); setPage(1); }}>
           <option value="">All departments</option>
           {departments.map((d) => <option key={d} value={d}>{d}</option>)}
@@ -175,12 +184,12 @@ export default function Employees() {
             <thead className="border-b border-slate-200 text-xs uppercase tracking-wide text-slate-500 dark:border-slate-800 dark:text-slate-400">
               <tr>
                 <th className="cursor-pointer px-4 py-3 hover:text-slate-900 dark:hover:text-white" onClick={() => toggleSort('name')}>
-                  Employee{sortIndicator('name')}
+                  Employee {sortIndicator('name')}
                 </th>
                 <th className="px-4 py-3">Department</th>
                 <th className="px-4 py-3">Role</th>
                 <th className="cursor-pointer px-4 py-3 hover:text-slate-900 dark:hover:text-white" onClick={() => toggleSort('joiningDate')}>
-                  Joined{sortIndicator('joiningDate')}
+                  Joined {sortIndicator('joiningDate')}
                 </th>
                 <th className="px-4 py-3">Manager</th>
                 <th className="px-4 py-3">Status</th>
@@ -247,14 +256,14 @@ export default function Employees() {
           </span>
           <div className="flex gap-2">
             <button className={btnSecondary} disabled={page <= 1} onClick={() => setPage((p) => p - 1)}>
-              ← Prev
+              <ChevronLeft size={16} /> Prev
             </button>
             <button
               className={btnSecondary}
               disabled={page >= pagination.totalPages}
               onClick={() => setPage((p) => p + 1)}
             >
-              Next →
+              Next <ChevronRight size={16} />
             </button>
           </div>
         </div>

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Users, UserCheck, UserX, Building2, type LucideIcon } from 'lucide-react';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, LabelList,
 } from 'recharts';
@@ -13,11 +14,20 @@ const SERIES = {
   dark: { primary: '#6366f1', roles: ['#6366f1', '#0284c7', '#d97706'] },
 };
 
-function StatTile({ label, value, accent }: { label: string; value: number; accent: string }) {
+function StatTile({
+  label, value, accent, icon: Icon,
+}: {
+  label: string; value: number; accent: string; icon: LucideIcon;
+}) {
   return (
-    <Card>
-      <div className="text-sm text-slate-500 dark:text-slate-400">{label}</div>
-      <div className={`mt-1 text-3xl font-bold tabular-nums ${accent}`}>{value}</div>
+    <Card className="flex items-start justify-between">
+      <div>
+        <div className="text-sm text-slate-500 dark:text-slate-400">{label}</div>
+        <div className={`mt-1 text-3xl font-bold tabular-nums ${accent}`}>{value}</div>
+      </div>
+      <span className="rounded-lg bg-slate-100 p-2 text-slate-500 dark:bg-slate-800 dark:text-slate-400">
+        <Icon size={20} />
+      </span>
     </Card>
   );
 }
@@ -56,10 +66,10 @@ export default function Dashboard() {
 
       {/* Stat tiles */}
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <StatTile label="Total Employees" value={stats.totalEmployees} accent="text-slate-900 dark:text-white" />
-        <StatTile label="Active Employees" value={stats.activeEmployees} accent="text-emerald-600 dark:text-emerald-400" />
-        <StatTile label="Inactive Employees" value={stats.inactiveEmployees} accent="text-amber-600 dark:text-amber-400" />
-        <StatTile label="Departments" value={stats.departmentCount} accent="text-indigo-600 dark:text-indigo-400" />
+        <StatTile label="Total Employees" value={stats.totalEmployees} accent="text-slate-900 dark:text-white" icon={Users} />
+        <StatTile label="Active Employees" value={stats.activeEmployees} accent="text-emerald-600 dark:text-emerald-400" icon={UserCheck} />
+        <StatTile label="Inactive Employees" value={stats.inactiveEmployees} accent="text-amber-600 dark:text-amber-400" icon={UserX} />
+        <StatTile label="Departments" value={stats.departmentCount} accent="text-indigo-600 dark:text-indigo-400" icon={Building2} />
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">

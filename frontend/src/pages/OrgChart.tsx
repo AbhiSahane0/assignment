@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { ChevronDown, ChevronRight } from 'lucide-react';
 import api, { errorMessage } from '../api/client';
 import { TreeNode } from '../types';
 import { Alert, Avatar, Card, RoleBadge, Spinner, StatusBadge } from '../components/ui';
@@ -15,10 +16,10 @@ function Node({ node, depth }: { node: TreeNode; depth: number }) {
         {hasReports ? (
           <button
             onClick={() => setOpen((o) => !o)}
-            className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md border border-slate-300 text-xs font-bold text-slate-600 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
+            className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md border border-slate-300 text-slate-600 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
             aria-label={open ? 'Collapse' : 'Expand'}
           >
-            {open ? '−' : '+'}
+            {open ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
           </button>
         ) : (
           <span className="w-6 shrink-0" />

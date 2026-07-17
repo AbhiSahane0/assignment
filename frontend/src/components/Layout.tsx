@@ -1,5 +1,6 @@
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { LayoutDashboard, Users, Network, CircleUserRound, Menu, Sun, Moon, LogOut } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import { ROLE_LABELS } from '../types';
@@ -29,18 +30,18 @@ export default function Layout() {
       {isAdminOrHr && (
         <>
           <NavLink to="/" end className={linkClass} onClick={() => setSidebarOpen(false)}>
-            <span aria-hidden>📊</span> Dashboard
+            <LayoutDashboard size={18} /> Dashboard
           </NavLink>
           <NavLink to="/employees" className={linkClass} onClick={() => setSidebarOpen(false)}>
-            <span aria-hidden>👥</span> Employees
+            <Users size={18} /> Employees
           </NavLink>
         </>
       )}
       <NavLink to="/organization" className={linkClass} onClick={() => setSidebarOpen(false)}>
-        <span aria-hidden>🌳</span> Org Chart
+        <Network size={18} /> Org Chart
       </NavLink>
       <NavLink to="/profile" className={linkClass} onClick={() => setSidebarOpen(false)}>
-        <span aria-hidden>🪪</span> My Profile
+        <CircleUserRound size={18} /> My Profile
       </NavLink>
     </nav>
   );
@@ -55,7 +56,7 @@ export default function Layout() {
             onClick={() => setSidebarOpen((o) => !o)}
             aria-label="Toggle menu"
           >
-            ☰
+            <Menu size={20} />
           </button>
           <span className="text-lg font-bold tracking-tight">
             <span className="text-indigo-600 dark:text-indigo-400">EMS</span> · Employee Management
@@ -64,11 +65,11 @@ export default function Layout() {
         <div className="flex items-center gap-3">
           <button
             onClick={toggle}
-            className="rounded-md p-2 text-lg hover:bg-slate-100 dark:hover:bg-slate-800"
+            className="rounded-md p-2 text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white"
             title="Toggle dark mode"
             aria-label="Toggle dark mode"
           >
-            {dark ? '☀️' : '🌙'}
+            {dark ? <Sun size={18} /> : <Moon size={18} />}
           </button>
           <div className="hidden text-right sm:block">
             <div className="text-sm font-semibold">{user?.name}</div>
@@ -79,9 +80,9 @@ export default function Layout() {
           )}
           <button
             onClick={handleLogout}
-            className="rounded-md border border-slate-300 px-3 py-1.5 text-sm font-medium hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800"
+            className="inline-flex items-center gap-2 rounded-md border border-slate-300 px-3 py-1.5 text-sm font-medium hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800"
           >
-            Logout
+            <LogOut size={16} /> Logout
           </button>
         </div>
       </header>

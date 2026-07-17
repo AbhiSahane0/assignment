@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import { X } from 'lucide-react';
 import { Role, Status, ROLE_LABELS } from '../types';
 
 export function Card({ children, className = '' }: { children: ReactNode; className?: string }) {
@@ -11,12 +12,12 @@ export function Card({ children, className = '' }: { children: ReactNode; classN
 
 export function StatusBadge({ status }: { status: Status }) {
   return status === 'ACTIVE' ? (
-    <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-medium text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300">
-      ● Active
+    <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-medium text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300">
+      <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" /> Active
     </span>
   ) : (
-    <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-500 dark:bg-slate-800 dark:text-slate-400">
-      ○ Inactive
+    <span className="inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-500 dark:bg-slate-800 dark:text-slate-400">
+      <span className="h-1.5 w-1.5 rounded-full border border-slate-400" /> Inactive
     </span>
   );
 }
@@ -90,7 +91,7 @@ export function Modal({ title, onClose, children }: { title: string; onClose: ()
         <div className="flex items-center justify-between border-b border-slate-200 px-5 py-3 dark:border-slate-800">
           <h2 className="text-base font-semibold">{title}</h2>
           <button onClick={onClose} className="rounded-md p-1 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800" aria-label="Close">
-            ✕
+            <X size={18} />
           </button>
         </div>
         <div className="p-5">{children}</div>
