@@ -5,7 +5,7 @@
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
-    { "key": "baseUrl", "value": "http://localhost:5000/api" },
+    { "key": "baseUrl", "value": "https://assignment-q84f.onrender.com/api" },
     { "key": "token", "value": "" },
     { "key": "employeeId", "value": "REPLACE_WITH_EMPLOYEE_OBJECT_ID" },
     { "key": "managerId", "value": "REPLACE_WITH_MANAGER_OBJECT_ID" }
