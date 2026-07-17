@@ -6,8 +6,14 @@ circular-reporting prevention, and a responsive dashboard with charts and dark
 mode.
 
 **Live demo:** _add your Vercel URL here_ · **API:** _add your Render URL here_
-> Note: the API runs on Render's free tier, which sleeps after inactivity —
-> the first request may take ~30 seconds to wake.
+
+> **⚠️ First load is slow — please read:** the API is hosted on Render's free
+> tier, which sleeps the server after ~15 minutes of inactivity. The first
+> request after idle (usually the login) takes **50–60 seconds** while the
+> server cold-starts. This is a hosting-tier limitation, not an application
+> issue — every request after the first responds normally. If login appears to
+> hang, wait up to a minute and retry, or warm the server first by opening
+> `https://assignment-q84f.onrender.com/api/health`.
 
 ## Project Overview
 
