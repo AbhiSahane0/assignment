@@ -5,7 +5,7 @@ role-based access control, employee CRUD, an organizational hierarchy with
 circular-reporting prevention, and a responsive dashboard with charts and dark
 mode.
 
-**Live demo:** _add your Vercel URL here_ · **API:** _add your Render URL here_
+**Live demo:** https://assignment-silk-kappa.vercel.app/ · **API:** https://assignment-q84f.onrender.com
 
 > **⚠️ First load is slow — please read:** the API is hosted on Render's free
 > tier, which sleeps the server after ~15 minutes of inactivity. The first
