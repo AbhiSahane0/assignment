@@ -1,7 +1,7 @@
 # EMS API Documentation
 
 Base URL (local): `http://localhost:5000/api`
-Base URL (production): `https://<your-render-service>.onrender.com/api`
+Base URL (production): `https://<https://assignment-q84f.onrender.com>.onrender.com/api`
 
 All responses share the envelope `{ "success": boolean, ... }`.
 
